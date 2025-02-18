@@ -1,5 +1,4 @@
-import libheif from 'https://cdn.jsdelivr.net/npm/libheif-js@1.17.1/libheif-wasm/libheif-bundle.mjs';
-const { HeifDecoder } = libheif();
+import { decodeHeif } from './UseLibheif.mjs';
 
 const loadButton = document.querySelector('#loadButton');
 const canvas = document.querySelector('canvas');
@@ -14,7 +13,7 @@ loadButton.addEventListener('change', function (event) {
 async function processFile(file) {
   try {
     const buffer = await readFile(file);
-    const { imageData, width, height } = await getImageData(buffer);
+    const { imageData, width, height } = await decodeHeif(buffer);
     console.log('imageData:', imageData);
     await displayImage(imageData, width, height);
   } catch (err) {
@@ -33,28 +32,7 @@ async function readFile (file) {
 }
 
 
-async function getImageData(buffer) {
-  const decoder = new HeifDecoder();
 
-  const data = decoder.decode(buffer);
-  const image = data[0];
-  const width = image.get_width();
-  const height = image.get_height();
-
-  // let imageData = new Uint8Array(width * height * 4);
-  let imageData = new ImageData(width, height);
-  await new Promise((resolve, reject) => {
-    image.display(imageData, (displayData) => {
-      if (!displayData) {
-        return reject(new Error('HEIF processing error'));
-      }
-
-      resolve();
-    });
-  });
-
-  return { imageData, width, height };
-}
 
 
 async function displayImage (imageData, width, height) {
