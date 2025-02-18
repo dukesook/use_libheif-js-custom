@@ -14,8 +14,9 @@ loadButton.addEventListener('change', function (event) {
 async function processFile(file) {
   try {
     const buffer = await readFile(file);
-    const { image, width, height } = await decodeImage(buffer);
-    await displayImage(image, width, height);
+    const { imageData, width, height } = await getImageData(buffer);
+    console.log('imageData:', imageData);
+    await displayImage(imageData, width, height);
   } catch (err) {
     console.error('failed to convert image:', err);
   }
@@ -31,24 +32,17 @@ const readFile = (file) =>
     reader.readAsArrayBuffer(file);
   });
 
-  
-async function decodeImage(buffer) {
+
+async function getImageData(buffer) {
   const decoder = new HeifDecoder();
 
   const data = decoder.decode(buffer);
   const image = data[0];
   const width = image.get_width();
   const height = image.get_height();
-  return { image, width, height };
-}
 
-
-async function displayImage (image, width, height) {
-  canvas.width = width;
-  canvas.height = height;
-
-  const context = canvas.getContext('2d');
-  const imageData = context.createImageData(width, height);
+  // let imageData = new Uint8Array(width * height * 4);
+  let imageData = new ImageData(width, height);
   await new Promise((resolve, reject) => {
     image.display(imageData, (displayData) => {
       if (!displayData) {
@@ -58,6 +52,16 @@ async function displayImage (image, width, height) {
       resolve();
     });
   });
+
+  return { imageData, width, height };
+}
+
+
+async function displayImage (imageData, width, height) {
+  canvas.width = width;
+  canvas.height = height;
+
+  const context = canvas.getContext('2d');
 
   context.putImageData(imageData, 0, 0);
 };
