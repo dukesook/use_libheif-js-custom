@@ -14,7 +14,8 @@ loadButton.addEventListener('change', function (event) {
 async function processFile(file) {
   try {
     const buffer = await readFile(file);
-    await displayFile(buffer);
+    const { image, width, height } = await decodeImage(buffer);
+    await displayImage(image, width, height);
   } catch (err) {
     console.error('failed to convert image:', err);
   }
@@ -30,15 +31,19 @@ const readFile = (file) =>
     reader.readAsArrayBuffer(file);
   });
 
-// Display File
-const displayFile = async (buffer) => {
+  
+async function decodeImage(buffer) {
   const decoder = new HeifDecoder();
 
   const data = decoder.decode(buffer);
   const image = data[0];
   const width = image.get_width();
   const height = image.get_height();
+  return { image, width, height };
+}
 
+
+async function displayImage (image, width, height) {
   canvas.width = width;
   canvas.height = height;
 
