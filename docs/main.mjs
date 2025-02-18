@@ -23,14 +23,14 @@ async function processFile(file) {
 }
 
 // Read File
-const readFile = (file) =>
-  new Promise((resolve, reject) => {
+async function readFile (file) {
+  return new Promise((resolve, reject) => {
     const reader = new FileReader();
-
     reader.onload = (e) => resolve(new Uint8Array(e.target.result));
     reader.onerror = (error) => reject(error);
     reader.readAsArrayBuffer(file);
   });
+}
 
 
 async function getImageData(buffer) {
