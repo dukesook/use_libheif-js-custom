@@ -22,7 +22,7 @@ async function processFile(file) {
 }
 
 
-async function readFile (file) {
+async function readFile(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = (e) => resolve(new Uint8Array(e.target.result));
@@ -32,7 +32,7 @@ async function readFile (file) {
 }
 
 
-async function displayImage (imageData) {
+async function displayImage(imageData) {
   canvas.width = imageData.width;
   canvas.height = imageData.height;
 

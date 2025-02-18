@@ -1,7 +1,16 @@
+import createHeifModule from './libs/libheif.js';
 import libheif from 'https://cdn.jsdelivr.net/npm/libheif-js@1.17.1/libheif-wasm/libheif-bundle.mjs';
-const { HeifDecoder } = libheif();
+
+
+console.log('createHeifModule:', createHeifModule);
+
+export async function decodeHeifCustom(buffer) {
+  console.log(createHeifModule);
+}
+
 
 export async function decodeHeif(buffer) {
+  const { HeifDecoder } = libheif();
   const decoder = new HeifDecoder();
 
   const data = decoder.decode(buffer);
@@ -23,3 +32,4 @@ export async function decodeHeif(buffer) {
 
   return imageData;
 }
+
