@@ -21,5 +21,5 @@ export async function decodeHeif(buffer) {
     });
   });
 
-  return { imageData, width, height };
+  return imageData;
 }
