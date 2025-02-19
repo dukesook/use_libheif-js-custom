@@ -1,7 +1,8 @@
 import initLibheif from './libs/libheif.js'; // Built from source
 import libheif_catdad from 'https://cdn.jsdelivr.net/npm/libheif-js@1.17.1/libheif-wasm/libheif-bundle.mjs';
 
-let libheif = null; // USE_WASM=0 
+// $ USE_ES6=1 USE_WASM=0 ../build-emscripten.sh ..
+let libheif = null;
 
 export default async function decodeHeif(buffer) {
   // return decodeHeifCatDad(buffer);
