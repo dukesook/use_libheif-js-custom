@@ -1,4 +1,4 @@
-import { decodeHeif } from './UseLibheif.mjs';
+import decodeHeif from './UseLibheif.mjs';
 
 const loadButton = document.querySelector('#loadButton');
 const canvas = document.querySelector('canvas');
