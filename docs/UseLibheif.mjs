@@ -1,12 +1,23 @@
-import libheif_custom from './libs/libheif.js';
+import initLibheif from './libs/libheif.js'; // Built from source
 import libheif_catdad from 'https://cdn.jsdelivr.net/npm/libheif-js@1.17.1/libheif-wasm/libheif-bundle.mjs';
 
+let libheif = null;
+
 export async function decodeHeifCustom(buffer) {
-  console.log(libheif);
+  console.log(initLibheif);
 
 }
-const heif = libheif_custom(); // Initialize the WebAssembly module
-console.log("libheif initialized!", heif);
+
+
+
+initLibheif().then((instance) => {
+  libheif = instance;
+  console.log("libheif is ready!", libheif);
+  const version = libheif.heif_get_version();
+  console.log("libheif version:", version);
+}).catch((error) => {
+  console.error("Failed to load libheif", error);
+});
 
 
 
