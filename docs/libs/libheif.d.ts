@@ -217,6 +217,11 @@ interface WasmModule {
   _heif_context_add_generic_uri_metadata(_0: number, _1: number, _2: number, _3: number, _4: number, _5: number, _6: number): void;
   _heif_context_set_maximum_image_size_limit(_0: number, _1: number): void;
   _heif_context_set_max_decoding_threads(_0: number, _1: number): void;
+  _heif_context_get_number_of_items(_0: number): number;
+  _heif_item_get_item_type(_0: number, _1: number): number;
+  _heif_item_is_item_hidden(_0: number, _1: number): number;
+  _heif_context_get_list_of_item_IDs(_0: number, _1: number, _2: number): number;
+  _heif_item_get_mime_item_content_type(_0: number, _1: number): number;
   _heif_image_handle_get_number_of_region_items(_0: number): number;
   _heif_image_handle_get_list_of_region_item_ids(_0: number, _1: number, _2: number): number;
   _heif_context_get_region_item(_0: number, _1: number, _2: number, _3: number): void;
@@ -266,11 +271,6 @@ interface WasmModule {
   _heif_item_get_property_raw_size(_0: number, _1: number, _2: number, _3: number, _4: number): void;
   _heif_item_get_property_raw_data(_0: number, _1: number, _2: number, _3: number, _4: number): void;
   _heif_item_get_property_uuid_type(_0: number, _1: number, _2: number, _3: number, _4: number): void;
-  _heif_context_get_number_of_items(_0: number): number;
-  _heif_context_get_list_of_item_IDs(_0: number, _1: number, _2: number): number;
-  _heif_item_get_item_type(_0: number, _1: number): number;
-  _heif_item_is_item_hidden(_0: number, _1: number): number;
-  _heif_item_get_mime_item_content_type(_0: number, _1: number): number;
   _heif_item_get_mime_item_content_encoding(_0: number, _1: number): number;
   _heif_item_get_uri_item_uri_type(_0: number, _1: number): number;
   _heif_item_get_item_name(_0: number, _1: number): number;
@@ -291,7 +291,7 @@ interface WasmModule {
   _de265_new_decoder(): number;
   _de265_set_parameter_bool(_0: number, _1: number, _2: number): void;
   _de265_free_decoder(_0: number): number;
-  _de265_push_NAL(_0: number, _1: number, _2: number, _3: BigInt, _4: number): number;
+  _de265_push_NAL(_0: number, _1: number, _2: number, _3: number, _4: number, _5: number): number;
   _de265_flush_data(_0: number): number;
   _de265_decode(_0: number, _1: number): number;
   _de265_get_next_picture(_0: number): number;
@@ -397,7 +397,10 @@ interface EmbindModule {
   heif_image_handle_get_width(_0: heif_image_handle | null): number;
   heif_image_handle_get_height(_0: heif_image_handle | null): number;
   heif_image_handle_is_primary_image(_0: heif_image_handle | null): number;
+  heif_context_get_number_of_items(_0: heif_context | null): number;
   heif_get_version_number(): number;
+  heif_item_get_item_type(_0: heif_context | null, _1: number): number;
+  heif_item_is_item_hidden(_0: heif_context | null, _1: number): number;
   heif_get_version(): string;
   heif_js_check_filetype(_0: EmbindString): heif_filetype_result;
   heif_context_read_from_memory(_0: heif_context | null, _1: EmbindString): heif_error;
@@ -405,6 +408,9 @@ interface EmbindModule {
   heif_js_context_get_image_handle(_0: heif_context | null, _1: number): any;
   heif_js_context_get_primary_image_handle(_0: heif_context | null): any;
   heif_js_decode_image2(_0: heif_image_handle | null, _1: heif_colorspace, _2: heif_chroma): any;
+  heif_js_context_get_list_of_item_IDs(_0: heif_context | null): any;
+  heif_js_item_get_item_type_string(_0: heif_context | null, _1: number): any;
+  heif_js_item_get_mime_item_content_type(_0: heif_context | null, _1: number): any;
 }
 
 export type MainModule = WasmModule & typeof RuntimeExports & EmbindModule;
