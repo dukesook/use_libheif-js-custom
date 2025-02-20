@@ -411,7 +411,7 @@ interface EmbindModule {
   heif_js_decode_image2(_0: heif_image_handle | null, _1: heif_colorspace, _2: heif_chroma): any;
   heif_context_get_list_of_item_IDs(_0: heif_context | null): any;
   heif_item_get_item_type_string(_0: heif_context | null, _1: number): any;
-  heif_js_item_get_mime_item_content_type(_0: heif_context | null, _1: number): any;
+  heif_item_get_mime_item_content_type(_0: heif_context | null, _1: number): any;
   heif_js_context_get_list_of_top_level_image_IDs(_0: heif_context | null): any;
   heif_js_context_get_image_handle(_0: heif_context | null, _1: number): any;
   heif_js_context_get_primary_image_handle(_0: heif_context | null): any;
