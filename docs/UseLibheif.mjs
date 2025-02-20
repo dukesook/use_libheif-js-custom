@@ -16,14 +16,14 @@ async function decodeHeifCustom(buffer) {
   let error = libheif.heif_context_read_from_memory(ctx, buffer);
   console.log('ctx:', ctx);
 
-  const filetype = libheif.heif_js_check_filetype(buffer);
+  const filetype = libheif.heif_check_filetype(buffer);
   console.log('filetype:', filetype);
 
   const num_images = libheif.heif_context_get_number_of_top_level_images(ctx);
   console.log('num_images:', num_images);
 
 
-  const ids = libheif.heif_js_context_get_list_of_top_level_image_IDs(ctx);
+  const ids = libheif.heif_context_get_list_of_top_level_image_IDs(ctx);
   console.log('ids:', ids);
 
   // NEW FUNCTION
@@ -31,7 +31,7 @@ async function decodeHeifCustom(buffer) {
   console.log('num_items:', num_items);
   
   // NEW FUNCTION
-  const item_ids = libheif.heif_js_context_get_list_of_item_IDs(ctx);
+  const item_ids = libheif.heif_context_get_list_of_item_IDs(ctx);
   console.log('num_items:', item_ids);
 
 
@@ -39,10 +39,10 @@ async function decodeHeifCustom(buffer) {
     const type = libheif.heif_item_get_item_type(ctx, item_id);
     console.log('type:', type);
 
-    const type_string = libheif.heif_js_item_get_item_type_string(ctx, item_id);
+    const type_string = libheif.heif_item_get_item_type_string(ctx, item_id);
     console.log('type_string:', type_string);
 
-    const content_type = libheif.heif_js_item_get_mime_item_content_type(ctx, item_id);
+    const content_type = libheif.heif_item_get_mime_item_content_type(ctx, item_id);
     console.log('content_type:', content_type);
 
     const hidden = libheif.heif_item_is_item_hidden(ctx, item_id);
@@ -52,7 +52,7 @@ async function decodeHeifCustom(buffer) {
   }
 
   // Primary Image
-  const primary_handle = libheif.heif_js_context_get_primary_image_handle(ctx);
+  const primary_handle = libheif.heif_context_get_primary_image_handle(ctx);
   const colorspace = libheif.heif_colorspace.heif_colorspace_RGB;
   const chroma = libheif.heif_chroma.heif_chroma_interleaved_RGBA;
   const heifImage = libheif.heif_js_decode_image2(primary_handle, colorspace, chroma);
@@ -60,7 +60,7 @@ async function decodeHeifCustom(buffer) {
 
   for (let i = 0; i < ids.length; i++) {
     const id = ids[i];
-    const handle = libheif.heif_js_context_get_image_handle(ctx, id);
+    const handle = libheif.heif_context_get_image_handle(ctx, id);
 
     const image = libheif.heif_js_decode_image2(handle, colorspace, chroma);
     if (!image || image.code) {
